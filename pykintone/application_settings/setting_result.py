@@ -154,3 +154,17 @@ class UpdateViewsResult(Result):
                 self.revision = int(serialized["revision"])
                 for k in serialized["views"]:
                     self.view_dict[k] = serialized["views"][k]["id"]
+
+
+class GetStatusResult(Result):
+
+    def __init__(self, response):
+        super(GetStatusResult, self).__init__(response)
+        self.raw = {}
+        self.revision = -1
+        self.enable = False
+        self.states = {}
+        self.actions = []
+        if self.ok:
+            serialized = response.json()
+            self.raw = serialized
