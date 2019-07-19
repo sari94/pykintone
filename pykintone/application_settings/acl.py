@@ -3,17 +3,17 @@ import pykintone.application_settings.setting_result as sr
 
 
 class AclAPI(BaseAdministrationAPI):
-    API_ROOT = "https://{0}.cybozu.com/k/v1{1}/app/acl.json"
+    API_ROOT = "https://{0}.cybozu.com/k/v1{1}/{2}/acl.json"
 
     def __init__(self, account, api_token="", requests_options=(), app_id=""):
         super(AclAPI, self).__init__(account, api_token, requests_options, app_id)
 
-    def _make_url(self, preview=False):
-        url = self.API_ROOT.format(self.account.domain, "" if not preview else "/preview")
+    def _make_url(self, layer, preview=False):
+        url = self.API_ROOT.format(self.account.domain, "" if not preview else "/preview", layer)
         return url
 
-    def get(self, app_id="", lang="default", preview=False):
-        url = self._make_url(preview)
+    def get(self, layer, app_id="", lang="default", preview=False):
+        url = self._make_url(layer, preview)
         params = {
             "app":  app_id if app_id else self.app_id,
         }
@@ -21,8 +21,8 @@ class AclAPI(BaseAdministrationAPI):
         r = self._request("GET", url, params_or_data=params, use_api_token=False)
         return sr.GetAclResult(r)
 
-    def update(self, _json, preview=True):
-        url = self._make_url(preview)
+    def update(self, layer, _json, preview=True):
+        url = self._make_url(layer, preview)
 
         if isinstance(_json, dict) and "app" in _json:
             pass
