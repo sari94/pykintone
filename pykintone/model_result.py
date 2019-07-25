@@ -83,3 +83,10 @@ class BatchUpdateResult(Result):
                 k = RecordKey(int(r["id"]), int(r["revision"]))
                 self.keys.append(k)
 
+class RawResult(Result):
+
+    def __init__(self, response):
+        super(RawResult, self).__init__(response)
+        self.raw = {}
+        if self.ok:
+            self.raw = response.json()
