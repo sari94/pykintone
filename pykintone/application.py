@@ -15,6 +15,9 @@ class Application(BaseAPI):
     def __multiple(self):
         return self.API_ROOT.format(self.account.domain, "records.json")
 
+    def __cursor(self):
+        return self.API_ROOT.format(self.account.domain, "records/cursor.json")
+
     def __is_record_id(self, field_name):
         return True if field_name in ["id", "$id"] else False
 
@@ -243,6 +246,24 @@ class Application(BaseAPI):
     def comment(self, record_id):
         from pykintone.comment_api import CommentAPI
         return CommentAPI(self.account, self.app_id, record_id, self.api_token, self.requests_options)
+
+    def create_cursor(self, data):
+        url = self.__cursor()
+        resp = self._request("POST", url, params_or_data=data)
+        r = mr.RawResult(resp)
+        return r
+
+    def get_records_by_cursor(self, data):
+        url = self.__cursor()
+        resp = self._request("GET", url, params_or_data=data)
+        r = mr.RawResult(resp)
+        return r
+
+    def delete_cursor(self, data):
+        url = self.__cursor()
+        resp = self._request("DELETE", url, params_or_data=data)
+        r = mr.RawResult(resp)
+        return r
 
     def __str__(self):
         info = str(self.account)

@@ -45,7 +45,7 @@ class Account(object):
         apps = None
 
         with open(path, "rb") as f:
-            a_dict = yaml.load(f)
+            a_dict = yaml.load(f, Loader=yaml.SafeLoader)
             apps = cls.loads(a_dict)
 
         return apps
@@ -105,8 +105,14 @@ class kintoneService(object):
 
     def app(self, app_id="", api_token="", app_name=""):
         from pykintone.application import Application
-        if not app_id:
+        if not app_id and not app_name:
             return self.__apps[0]
+        elif not app_id and app_name:
+            existed = [a for a in self.__apps if a.app_name == app_name]
+            if len(existed) > 0:
+                return existed[0]
+            else:
+                return None
         else:
             existed = [a for a in self.__apps if a.app_id == app_id]
             # register if not exist
