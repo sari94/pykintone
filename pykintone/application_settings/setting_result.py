@@ -168,3 +168,15 @@ class GetStatusResult(Result):
         if self.ok:
             serialized = response.json()
             self.raw = serialized
+
+
+class GetAclResult(Result):
+
+    def __init__(self, response):
+        super(GetAclResult, self).__init__(response)
+        self.raw = {}
+        self.revision = -1
+        self.rights = []
+        if self.ok:
+            serialized = response.json()
+            self.raw = serialized
