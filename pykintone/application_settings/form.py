@@ -36,6 +36,13 @@ class FormAPI(BaseAdministrationAPI):
         r = self._request("POST", url, params_or_data=body, use_api_token=False)
         return sr.GetRevisionResult(r)
 
+    def update(self, json_or_models, app_id="", revision=-1):
+        url = self._make_url(preview=True)
+        body = self._format_fields(json_or_models, app_id if app_id else self.app_id, revision)
+
+        r = self._request("PUT", url, params_or_data=body, use_api_token=False)
+        return sr.GetRevisionResult(r)
+
     def delete(self, json_or_models, app_id="", revision=-1):
         url = self._make_url(preview=True)
         codes = self.gather_codes(json_or_models)
