@@ -180,3 +180,15 @@ class GetAclResult(Result):
         if self.ok:
             serialized = response.json()
             self.raw = serialized
+
+class GetReminderResult(Result):
+
+    def __init__(self, response):
+        super(GetReminderResult, self).__init__(response)
+        self.raw = {}
+        self.revision = -1
+        self.notifications = []
+        self.notifications.targets = []
+        if self.ok:
+            serialized = response.json()
+            self.raw = serialized
