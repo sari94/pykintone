@@ -9,8 +9,8 @@ class ReminderAPI(BaseAdministrationAPI):
     def __init__(self, account, api_token="", requests_options=(), app_id=""):
         super(ReminderAPI, self).__init__(account, api_token, requests_options, app_id)
 
-    def _make_url(self, layer, preview=False):
-        url = self.API_ROOT.format(self.account.domain, "" if not preview else "/preview", layer)
+    def _make_url(self, preview=False):
+        url = self.API_ROOT.format(self.account.domain, "" if not preview else "/preview")
         return url
 
 
