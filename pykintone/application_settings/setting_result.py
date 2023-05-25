@@ -188,7 +188,6 @@ class GetReminderResult(Result):
         self.raw = {}
         self.revision = -1
         self.notifications = []
-        self.notifications.targets = []
         if self.ok:
             serialized = response.json()
             self.raw = serialized
